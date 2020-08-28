@@ -4,6 +4,7 @@ module.exports = {
   getRecipes,
   getShoppingList,
   getInstructions,
+  getRecipesForIngredient,
 };
 
 async function getRecipes() {
@@ -25,4 +26,12 @@ async function getInstructions(recipeId) {
     .join('instructions', 'instructions.id', 'ri.instruction_id')
     .where('ri.recipe_id', '=', recipeId)
     .orderBy('instructions.step_number', 'asc');
+}
+
+async function getRecipesForIngredient(ingredientId) {
+  return db
+    .distinct('r.name')
+    .from('recipes_ingredients as ri')
+    .join('recipes as r', 'r.id', 'ri.recipe_id')
+    .where('ri.ingredient_id', ingredientId);
 }

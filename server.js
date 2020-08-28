@@ -34,3 +34,12 @@ server.get('/api/recipes/:id/instructions', async (req, res) => {
     res.status(500).json({ message: `Error: ${err}` });
   }
 });
+
+server.get('/api/ingredients/:id/recipes', async (req, res) => {
+  try {
+    const recipes = await db.getRecipesForIngredient(req.params.id);
+    res.status(200).json(recipes);
+  } catch (err) {
+    res.status(500).json({ message: `Error: ${err}` });
+  }
+});
